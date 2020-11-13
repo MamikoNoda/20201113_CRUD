@@ -4,12 +4,35 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "eslint": "^7.13.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-config-problems": "^5.0.0",
+    "eslint-plugin-prettier": "^3.1.4",
     "express": "^4.17.1",
+    "husky": "^4.3.0",
+    "mocha": "^8.2.1",
     "nodemon": "^2.0.6",
     "pg": "^8.5.0",
-    "sequelize": "^6.3.5"
+    "prettier": "^2.1.2",
+    "pretty-quick": "^3.1.0",
+    "sequelize": "^6.3.5",
+    "underscore": "^1.11.0"
   },
   "scripts": {
-    "sequelize": "sequelize"
+    "sequelize": "sequelize",
+    "start": "node ./index.js",
+    "dev": "nodemon ./index.js",
+    "lint": "eslint --fix --ext .js .",
+    "test": "mocha test && yarn lint",
+    "seedtestkapi": "sequelize seed:generate --name testKapi",
+    "migrate": "yarn sequelize db:migrate:undo:all && yarn sequelize db:migrate",
+    "seed": "yarn sequelize db:seed:undo:all && yarn sequelize db:seed:all"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }
