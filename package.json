@@ -1,0 +1,15 @@
+{
+  "name": "sequelize",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.6",
+    "pg": "^8.5.0",
+    "sequelize": "^6.3.5"
+  },
+  "scripts": {
+    "sequelize": "sequelize"
+  }
+}
