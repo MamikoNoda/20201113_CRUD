@@ -2,6 +2,7 @@ const express = require("express");
 //const app = express();
 const db = require("./models/index");
 //const Sequelize = require("sequelize");
+const { check, validationResult } = require("express-validator");
 
 const setupServer = () => {
   /**
@@ -17,6 +18,18 @@ const setupServer = () => {
     res.send("Hello World!");
   });
 
+  app.post(
+    "/test",
+    [check("name").isLength({ min: 5 }).withMessage("文字数が足りない")],
+    function (req, res) {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+      res.send("Validation OK");
+    }
+  );
+
   app.post("/kapibara", async function (req, res) {
     const newKapibara = await db.KapibaraTest.create(req.body);
     res.status(201);
@@ -24,7 +37,9 @@ const setupServer = () => {
   });
 
   app.get("/kapibara", async function (req, res) {
-    const kapibaraAll = await db.KapibaraTest.findAll();
+    const kapibaraAll = await db.KapibaraTest.findAll({
+      order: [["id", "ASC"]],
+    });
     res.send(kapibaraAll);
   });
 
