@@ -2,20 +2,38 @@
 <html>
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
-      let exp = new Object();
-      exp = { name: "テストカピ" };
+      document.getElementById("btn").addEventListener("click", async () => {
+        let exp = new Object();
+        exp = { name: "テストカピ" };
 
-      const response = await fetch("http://localhost:3000/kapibara", {
-        method: "DELETE", //deleteでも動く
-        body: JSON.stringify(exp),
-        headers: {
-          "Content-Type": "application/json",
-        },
+        const response = await fetch("http://localhost:3000/kapibara", {
+          method: "DELETE", //deleteでも動く
+          body: JSON.stringify(exp),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await response.text();
+        console.log(data);
+        const statuscode = await response.status;
+        if (statuscode === 200) {
+          alert(data);
+        } else {
+          alert("あとは実在しているカピバラしか残ってないよ。");
+        }
       });
-      const data = await response.text();
-      console.log(data);
     });
   </script>
   <head></head>
-  <body></body>
+  <body>
+    <h1>カピバラのぬいぐるみは増えることはあっても減ることはない。</h1>
+    <h2>その原則に反してでもカピバラを消すことに喜びを覚える人のために、</h2>
+    <h2>非実在カピバラを用意しました。</h2>
+    <input
+      id="btn"
+      type="button"
+      name="submit"
+      value="非実在カピバラを削除する"
+    />
+  </body>
 </html>

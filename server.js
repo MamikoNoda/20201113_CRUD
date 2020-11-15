@@ -3,6 +3,15 @@ const express = require("express");
 const db = require("./models/index");
 //const Sequelize = require("sequelize");
 const { check, validationResult } = require("express-validator");
+const {
+  nameParamValidation,
+  nameBodyValidation,
+  featureValidation,
+  habitatValidation,
+  pictureUrlValidation,
+  changeBodyValidation,
+  changeValication,
+} = require("./nameValidation.js");
 
 const setupServer = () => {
   /**
@@ -30,11 +39,43 @@ const setupServer = () => {
     }
   );
 
-  app.post("/kapibara", async function (req, res) {
-    const newKapibara = await db.KapibaraTest.create(req.body);
-    res.status(201);
-    res.send(newKapibara);
-  });
+  app.post(
+    "/test2",
+    [
+      nameBodyValidation,
+      featureValidation,
+      habitatValidation,
+      pictureUrlValidation,
+      changeBodyValidation,
+      changeValication,
+    ],
+    function (req, res) {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+      res.send("Validation OK");
+    }
+  );
+
+  app.post(
+    "/kapibara",
+    [
+      nameBodyValidation,
+      featureValidation,
+      habitatValidation,
+      pictureUrlValidation,
+    ],
+    async function (req, res) {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+      const newKapibara = await db.KapibaraTest.create(req.body);
+      res.status(201);
+      res.send(newKapibara);
+    }
+  );
 
   app.get("/kapibara", async function (req, res) {
     const kapibaraAll = await db.KapibaraTest.findAll({
@@ -43,28 +84,41 @@ const setupServer = () => {
     res.send(kapibaraAll);
   });
 
-  app.get("/kapibara/:name", async function (req, res) {
+  app.get("/kapibara/:name/", [nameParamValidation], async function (req, res) {
     const kapibaraSelection = await db.KapibaraTest.findAll({
       where: {
         name: req.params.name,
       },
     });
+    if (kapibaraSelection.length === 0) {
+      res.status(450);
+    } else {
+      res.status(200);
+    }
     res.send(kapibaraSelection);
   });
 
-  app.patch("/kapibara", async function (req, res) {
-    const d = await db.KapibaraTest.update(req.body.change, {
-      where: { name: req.body.name },
-    });
-    if (d[0]) {
-      const modifyKapibara = await db.KapibaraTest.findOne({
+  app.patch(
+    "/kapibara",
+    [nameBodyValidation, changeBodyValidation, changeValication],
+    async function (req, res) {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+      const d = await db.KapibaraTest.update(req.body.change, {
         where: { name: req.body.name },
       });
-      res.send(modifyKapibara);
-    } else {
-      res.sendStatus(500);
+      if (d[0]) {
+        const modifyKapibara = await db.KapibaraTest.findOne({
+          where: { name: req.body.name },
+        });
+        res.send(modifyKapibara);
+      } else {
+        res.sendStatus(500);
+      }
     }
-  });
+  );
 
   /*XMLHttpRequestでアクセスするためput用に作成したコード(不要)
   app.put("/kapibara", async function (req, res) {

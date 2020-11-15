@@ -1,7 +1,35 @@
 <!DOCTYPE html>
 <html>
   <script>
-    document.addEventListener(
+    document.addEventListener("DOMContentLoaded", async () => {
+      let exp = new Object();
+      exp = {
+        name: "テストカピ",
+        Habitat: "想像の中",
+        pictureUrl: "mitei",
+        feature: "架空の存在。テストのためだけに存在する",
+      };
+      const response = await fetch("http://localhost:3000/kapibara", {
+        method: "POST", //postでも動く
+        body: JSON.stringify(exp),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      const statuscode = await response.status;
+      if (statuscode === 201) {
+        const createok = "<h1>登録成功！</h1>";
+        let result = document.getElementById("result");
+        let div = document.createElement("div");
+        div.innerHTML = createok; //html要素に変換
+        result.appendChild(div, result);
+      } else {
+        alert("サーバの準備が出来てないかも");
+      }
+    });
+
+    /*document.addEventListener(
       "DOMContentLoaded",
       function () {
         let x = new XMLHttpRequest();
@@ -24,6 +52,14 @@
         };
       },
       false
-    );
+    );*/
   </script>
+  <head>
+    <meta charset="utf-8" />
+    <title>Profeel</title>
+    <!-- <link rel="stylesheet" href="stylesheet.css" /> -->
+  </head>
+  <body>
+    <div id="result"></div>
+  </body>
 </html>

@@ -8,32 +8,38 @@
           encodeURIComponent(document.getElementById("name").value);
         const response = await fetch(urlsearch, { method: "GET" });
         const kapibaraSelection = await response.json();
-        // console.log(kapibaraSelection);
+        const statuscode = await response.status;
+
         let result = document.getElementById("result");
         let div = document.createElement("div");
-        for (let i = 0; i < kapibaraSelection.length; i++) {
-          for (let key in kapibaraSelection[i]) {
-            let h2 = document.createElement("h2");
-            let title = document.createTextNode("<" + key + ">");
-            h2.appendChild(title);
-            div.appendChild(h2);
 
-            if (key === "pictureUrl") {
-              let img = document.createElement("img");
-              img.width = "500";
-              img.height = "350";
-              img.src = kapibaraSelection[i][key];
-              div.appendChild(img);
-            } else {
-              let h3 = document.createElement("h3");
-              let text = document.createTextNode(kapibaraSelection[i][key]);
-              h3.appendChild(text);
-              div.appendChild(h3);
+        if (statuscode === 200) {
+          // console.log(kapibaraSelection);
+          for (let i = 0; i < kapibaraSelection.length; i++) {
+            for (let key in kapibaraSelection[i]) {
+              let h2 = document.createElement("h2");
+              let title = document.createTextNode("<" + key + ">");
+              h2.appendChild(title);
+              div.appendChild(h2);
+
+              if (key === "pictureUrl") {
+                let img = document.createElement("img");
+                img.width = "500";
+                img.height = "350";
+                img.src = kapibaraSelection[i][key];
+                div.appendChild(img);
+              } else {
+                let h3 = document.createElement("h3");
+                let text = document.createTextNode(kapibaraSelection[i][key]);
+                h3.appendChild(text);
+                div.appendChild(h3);
+              }
             }
           }
+          result.appendChild(div, result);
+        } else if (statuscode === 450) {
+          alert("そんなカピバラは存在しません。");
         }
-        console.log(div);
-        result.appendChild(div);
       });
     });
   </script>
