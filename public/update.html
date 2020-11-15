@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      let exp = new Object();
+      exp = {
+        name: "テストカピ",
+        change: {
+          feature: "架空の存在。修正された。後は消されるだけ。",
+        },
+      };
+
+      const response = await fetch("http://localhost:3000/kapibara", {
+        method: "PATCH", //patchと書くとエラーになる
+        body: JSON.stringify(exp),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+    });
+
+    /*        XMLHttpRequestを使用した場合（patchメソッドにアクセスできなかったため削除）
+            document.addEventListener('DOMContentLoaded',function(){
+            let x=new XMLHttpRequest();
+            let exp = new Object();
+            
+     exp= {
+      name: "テストカピ",
+      change: {
+        feature: "架空の存在。修正された。後は消されるだけ。",
+      },
+    };
+        let result=document.getElementById('result');
+        x.open("put", "http://localhost:3000/kapibara",true);
+        x.setRequestHeader('content-type',	'application/json; charset=utf-8');
+        x.send(JSON.stringify(exp));
+        x.onreadystatechange = function () {
+            console.log(x.readyState);
+            if(x.readyState===4){
+                console.log(x.response);
+            }
+        };        
+        },false);
+        */
+  </script>
+  <head></head>
+  <body></body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <script>
+    document.addEventListener(
+      "DOMContentLoaded",
+      function () {
+        let x = new XMLHttpRequest();
+        let exp = new Object();
+        exp = {
+          name: "テストカピ",
+          Habitat: "想像の中",
+          pictureUrl: "mitei",
+          feature: "架空の存在。テストのためだけに存在する",
+        };
+        let result = document.getElementById("result");
+        x.open("post", "http://localhost:3000/kapibara", true);
+        x.setRequestHeader("content-type", "application/json; charset=utf-8");
+        x.send(JSON.stringify(exp));
+        x.onreadystatechange = function () {
+          console.log(x.readyState);
+          if (x.readyState === 4) {
+            console.log(x.response);
+          }
+        };
+      },
+      false
+    );
+  </script>
+</html>

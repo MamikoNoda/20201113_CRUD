@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      document.getElementById("btn").addEventListener("click", async () => {
+        const urlsearch =
+          "http://localhost:3000/kapibara/" +
+          encodeURIComponent(document.getElementById("name").value);
+        const response = await fetch(urlsearch, { method: "GET" });
+        const kapibaraSelection = await response.json();
+        // console.log(kapibaraSelection);
+        let result = document.getElementById("result");
+        let div = document.createElement("div");
+        for (let i = 0; i < kapibaraSelection.length; i++) {
+          for (let key in kapibaraSelection[i]) {
+            let h2 = document.createElement("h2");
+            let title = document.createTextNode("<" + key + ">");
+            h2.appendChild(title);
+            div.appendChild(h2);
+
+            if (key === "pictureUrl") {
+              let img = document.createElement("img");
+              img.width = "500";
+              img.height = "350";
+              img.src = kapibaraSelection[i][key];
+              div.appendChild(img);
+            } else {
+              let h3 = document.createElement("h3");
+              let text = document.createTextNode(kapibaraSelection[i][key]);
+              h3.appendChild(text);
+              div.appendChild(h3);
+            }
+          }
+        }
+        console.log(div);
+        result.appendChild(div);
+      });
+    });
+  </script>
+  <head>
+    <meta charset="utf-8" />
+    <title>Profeel</title>
+    <!-- <link rel="stylesheet" href="stylesheet.css" /> -->
+  </head>
+  <body>
+    <h2>カピバラの名前で検索してください</h2>
+
+    <input id="name" type="text" name="name" size="15" />
+    <input id="btn" type="button" name="submit" value="検索" />
+    <div id="result"></div>
+  </body>
+</html>

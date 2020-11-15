@@ -9,6 +9,8 @@ const setupServer = () => {
    */
   //express関数の戻り値をappに入れる
   const app = express();
+  app.use("/picture", express.static(`${__dirname}/picture`));
+  app.use("/public", express.static(`${__dirname}/public`));
   app.use(express.json());
 
   app.get("/", function (req, res) {
@@ -16,7 +18,6 @@ const setupServer = () => {
   });
 
   app.post("/kapibara", async function (req, res) {
-    console.log(req.body);
     const newKapibara = await db.KapibaraTest.create(req.body);
     res.status(201);
     res.send(newKapibara);
@@ -24,12 +25,10 @@ const setupServer = () => {
 
   app.get("/kapibara", async function (req, res) {
     const kapibaraAll = await db.KapibaraTest.findAll();
-    console.log(kapibaraAll);
     res.send(kapibaraAll);
   });
 
   app.get("/kapibara/:name", async function (req, res) {
-    console.log(req.params.name);
     const kapibaraSelection = await db.KapibaraTest.findAll({
       where: {
         name: req.params.name,
@@ -39,6 +38,21 @@ const setupServer = () => {
   });
 
   app.patch("/kapibara", async function (req, res) {
+    const d = await db.KapibaraTest.update(req.body.change, {
+      where: { name: req.body.name },
+    });
+    if (d[0]) {
+      const modifyKapibara = await db.KapibaraTest.findOne({
+        where: { name: req.body.name },
+      });
+      res.send(modifyKapibara);
+    } else {
+      res.sendStatus(500);
+    }
+  });
+
+  /*XMLHttpRequestでアクセスするためput用に作成したコード(不要)
+  app.put("/kapibara", async function (req, res) {
     const d = await db.KapibaraTest.update(req.body.change, {
       where: { name: req.body.name },
     });
@@ -52,9 +66,9 @@ const setupServer = () => {
       res.sendStatus(500);
     }
   });
+  */
 
   app.delete("/kapibara", async function (req, res) {
-    console.log(req.body.name);
     const deleteKapibaraCount = await db.KapibaraTest.destroy({
       where: { name: req.body.name },
     });
@@ -66,6 +80,29 @@ const setupServer = () => {
     }
   });
 
+  app.get("/top", function (req, res) {
+    res.sendFile(`${__dirname}/public/index.html`);
+  });
+
+  /*app.useで静的fileを読み込めるようになったため、削除
+  app.get('/selectalllist', function(req, res) {
+    res.sendFile(__dirname + '/public/selectresultlist.html');
+  });
+
+  app.get('/create', function(req, res) {
+    res.sendFile(__dirname + '/public/create.html');
+  });
+
+  app.get('/update', function(req, res) {
+    res.sendFile(__dirname + '/public/update.html');
+  });
+
+  app.get('/delete', function(req, res) {
+    res.sendFile(__dirname + '/public/delete.html');
+  });
+  */
+
+  /*
   app.post("/create", function (req, res) {
     db.TestClass.create(req.body).then(() => {
       res.send("Data Created.");
@@ -105,6 +142,7 @@ const setupServer = () => {
     }
     res.send("delete");
   });
+  */
 
   return app;
 };

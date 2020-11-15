@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <script>
+    document.addEventListener(
+      "DOMContentLoaded",
+      function () {
+        let x = new XMLHttpRequest();
+        let result = document.getElementById("result");
+        x.open("get", "http://localhost:3000/kapibara", true);
+        x.setRequestHeader("content-type", "application/json; charset=utf-8");
+        x.send(null);
+        x.onreadystatechange = function () {
+          console.log(x.readyState);
+          if (x.readyState === 4) {
+            const kapibaraList = JSON.parse(x.response);
+            let ul = document.createElement("ul");
+            for (let i = 0; i < kapibaraList.length; i++) {
+              let li = document.createElement("li");
+              //let anchor=document.createElement('a');
+              //anchor.href='../pic/'+kapibaraList[i].picture;
+              let text = document.createTextNode(
+                kapibaraList[i].name + ":" + kapibaraList[i].feature
+              );
+              console.log(kapibaraList[i].name + ":" + kapibaraList[i].feature);
+              li.appendChild(text);
+              ul.appendChild(li);
+            }
+            console.log(ul);
+            result.appendChild(ul);
+          }
+        };
+      },
+      false
+    );
+  </script>
+  <head>
+    <meta charset="utf-8" />
+    <title>Profeel</title>
+    <!-- <link rel="stylesheet" href="stylesheet.css" /> -->
+  </head>
+  <body>
+    <h1>カピバラリスト</h1>
+    <div id="result"></div>
+  </body>
+</html>

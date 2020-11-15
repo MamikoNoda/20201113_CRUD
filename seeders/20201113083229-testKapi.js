@@ -15,7 +15,7 @@ module.exports = {
         {
           name: "ちゃカピ",
           Habitat: "on the bed at Home",
-          pictureUrl: "mitei",
+          pictureUrl: "../picture/mitei.jpg",
           feature: "古参。毛並みの悪さは愛の証",
           updatedAt: new Date().toDateString(),
           createdAt: new Date().toDateString(),

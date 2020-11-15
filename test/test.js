@@ -56,7 +56,14 @@ describe("Kapipara API Server", () => {
     //exercise
     const res = await request.patch("/kapibara").send(exp);
     //assert
+    const Data = await db.KapibaraTest.findAll({
+      where: { name: "テストカピ" },
+      raw: true,
+    });
     res.should.have.status(200);
+    Data[0].feature.should.deep.equal(
+      "架空の存在。修正された。後は消されるだけ。"
+    );
     JSON.parse(res.text).feature.should.deep.equal(
       "架空の存在。修正された。後は消されるだけ。"
     );
@@ -66,16 +73,26 @@ describe("Kapipara API Server", () => {
     //exercise
     const res = await request.delete("/kapibara").send({ name: "テストカピ" });
     //assert
+    const Data = await db.KapibaraTest.findAll({
+      where: { name: "テストカピ" },
+      raw: true,
+    });
+    Data.length.should.deep.equal(0);
     res.should.have.status(200);
     res.text.should.deep.equal("ばいばい");
   });
 
   it("should return GET selectall /kapibara", async () => {
-    const Data = await db.KapibaraTest.findAll();
+    //const Data = await db.KapibaraTest.findAll();
+    const Data = await db.KapibaraTest.findAll({ raw: true });
+    //const Datamap = Data.map((kapibara) => {
+    //  kapibara.updatedAt = kapibara.updatedAt.toJSON();
+    //  kapibara.createdAt = kapibara.createdAt.toJSON();
+    //});
     //exercise
     const res = await request.get("/kapibara");
     //assert
-    //res.should.have.status(200);
+    res.should.have.status(200);
     JSON.parse(res.text).length.should.deep.equal(Data.length);
   });
 });
