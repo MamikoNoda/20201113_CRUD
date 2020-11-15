@@ -2,7 +2,7 @@
 
 このリポジトリは Code Chrysalis の生徒であるときに作成しました（This was created during my time as a student at Code Chrysalis）
 
-# Name（リポジトリ/プロジェクト/OSS などの名前）
+# Name
 
 カピバラ API
 
