@@ -23,12 +23,10 @@
 nodemon index.js
 または
 node index.js
-
 ```
 
 ```
 http://localhost:3000/top
-
 ```
 
 # Feature&Requirement
@@ -39,9 +37,9 @@ http://localhost:3000/top
 
 また、OR マッパーとして Sequelize というライブラリを使用しています。
 
-_express": "^4.17.1",
-_"express-validator": "^6.6.1",
-\*"sequelize": "^6.3.5",
+_express": "^4.17.1"
+_"express-validator": "^6.6.1"
+\_"sequelize": "^6.3.5"
 
 # Installation
 
