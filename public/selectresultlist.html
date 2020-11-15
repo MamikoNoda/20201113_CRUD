@@ -10,7 +10,6 @@
         x.setRequestHeader("content-type", "application/json; charset=utf-8");
         x.send(null);
         x.onreadystatechange = function () {
-          console.log(x.readyState);
           if (x.readyState === 4) {
             const kapibaraList = JSON.parse(x.response);
             let ul = document.createElement("ul");
@@ -25,7 +24,6 @@
               li.appendChild(text);
               ul.appendChild(li);
             }
-            console.log(ul);
             result.appendChild(ul);
           }
         };

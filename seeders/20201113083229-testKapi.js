@@ -15,7 +15,7 @@ module.exports = {
         {
           name: "ちゃカピ",
           Habitat: "on the bed at Home",
-          pictureUrl: "../picture/mitei.jpg",
+          pictureUrl: "../picture/tyakapi.jpg",
           feature: "古参。毛並みの悪さは愛の証",
           updatedAt: new Date().toDateString(),
           createdAt: new Date().toDateString(),
@@ -38,11 +38,11 @@ module.exports = {
           createdAt: new Date().toDateString(),
         },
         {
-          name: "茶カピ",
+          name: "串カツカピ",
           Habitat: "on the bed at Home",
-          pictureUrl: "../picture/tyakapi.jpg",
+          pictureUrl: "../picture/kushi.jpg",
           feature:
-            "枕にちょうどいいサイズのカピバラ。かれこれ10年以上の付き合い。",
+            "串カツのソースツボにはまっているカピバラ。口にソースのついた行儀の悪い子。",
           updatedAt: new Date().toDateString(),
           createdAt: new Date().toDateString(),
         },
